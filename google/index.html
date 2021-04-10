@@ -7,12 +7,14 @@
     <link rel="icon"  href="images_google/icon.png">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="style_results.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
   </head>
 
-  <body class="results"> <!--class="home" for google home page 
-                            class="results" for google results page-->
-
-        <nav class="nav_tools">
+  <body> 
+    <!--class="home" for google home page / class="results" for google results page-->
+    <div id="app" :class="[googleSearch.length > 0 ? 'results' : 'home']"> 
+      
+    <nav class="nav_tools">
         <a href ="#">Gmail</a>
         <a href ="#">Grafika</a>
         <img src="images_google/bars.png" class="google_apps" role="button"></img>
@@ -23,11 +25,12 @@
         <img src="images_google/google.png" class="logo">
         <form><br><br>
             <div class="search_elements">
-                <input type="text" class="search_input">
-                <img src="images_google/search.png" class="search_icon">
-                <img src="images_google/mic.png" class="search_voice">
-                <input type="button" class="search_button" value="Sukaj w google"z>
-                <input type="button" class="search_button" value="Szczęśliwy traf">
+                <input v-model="googleSearch" type="text" class="search_input"/>
+                
+                <img src="images_google/search.png" class="search_icon"/>
+                <img src="images_google/mic.png" class="search_voice"/>
+                <input type="button" class="search_button" value="Sukaj w google"/>
+                <input type="button" class="search_button" value="Szczęśliwy traf"/>
             </div>
         </form>
     </section>
@@ -239,5 +242,14 @@
         </ul>
         
       </div>
+    </div>
 </body>
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      googleSearch: '',
+    }
+  });
+</script>
 </html>
