@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="style_results.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="./cities.js"></script>
   </head>
 
   <body> 
@@ -25,8 +26,7 @@
         <img src="images_google/google.png" class="logo">
         <form><br><br>
             <div class="search_elements">
-                <input v-model="googleSearch" type="text" class="search_input"/>
-                
+                <input ref="first" v-model="googleSearch" type="text" class="search_input"/>
                 <img src="images_google/search.png" class="search_icon"/>
                 <img src="images_google/mic.png" class="search_voice"/>
                 <input type="button" class="search_button" value="Sukaj w google"/>
@@ -68,7 +68,7 @@
         <div class="search_tools">
 
           <div class="search_elem">
-            <input type="text" value="">
+            <input ref="second" type="text" v-model="googleSearch">
             <img src="images_google/loupe_icon.png" class="search_icon">
             <img src="images_google/mic.png" class="search_voice">
             <img src="images_google/keyboard.png" class="search_keyboard">
@@ -89,11 +89,20 @@
           
         </div>
 
-      </div> 
+    </div> 
 
     <div class="searchResults">
 
         <p class="results_number">Około 14 700 000 wyników (0,34 s)</p>
+
+        <div class="cities">
+          <a class="link">Miasta zawierające "{{googleSearch}}":</a>
+          <ul>
+            <li v-for="city in filteredCities">
+              {{ city.name }}
+            </li>
+          </ul>
+        </div>
 
         <div class="result">
           <a class="link" href="#">support.google.com › websearch › answer</a><button>▼</button>
@@ -249,7 +258,33 @@
     el: '#app',
     data: {
       googleSearch: '',
+      cities: window.cities,
+    },
+
+    computed: {
+      filteredCities: function() {
+        let result = this.cities.filter(city => city.name.includes(this.googleSearch));
+        if(result.length>10){
+          return result.slice(1,11);
+        }
+        return result;
+      }
+    },
+
+    updated() {
+        this.$nextTick(() => {
+
+        if (this.googleSearch.length > 0) {
+
+        this.$refs.second.focus();
+
+        } else {
+
+        this.$refs.first.focus();
+
+        }
+      })
     }
-  });
+});
 </script>
 </html>

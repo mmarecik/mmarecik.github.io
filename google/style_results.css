@@ -3,14 +3,33 @@
 		font-family: arial, sans-serif;
 		outline: none;
 	}
-	
+
 	div.results  {
 		margin: 0;
 		padding: 0;
 		font-size: 13px;
 		max-height: none;
 	}
-	
+
+	.results .searchResults .cities{
+		padding:20px;
+	}
+
+	.results .searchResults .cities a{
+		color: black;
+		font-size: 20px;
+		margin-bottom: 15px;
+	}
+
+	.results .searchResults .cities ul li{
+		color:rgb(0, 3, 166);
+		list-style: circle;
+		font-size: 15px;
+		display: list-item;
+		margin-left: 15px;
+		padding: 5px;
+	}
+
 	.results img {
 		width: 92px;
 		display: inline;
