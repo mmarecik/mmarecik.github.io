@@ -13,7 +13,7 @@
 
   <body> 
     <!--class="home" for google home page / class="results" for google results page-->
-    <div id="app" :class="[googleSearch.length > 0 ? 'results' : 'home']"> 
+    <div id="app" :class="[change_class == 1 ? 'results' : 'home']"> 
       
     <nav class="nav_tools">
         <a href ="#">Gmail</a>
@@ -26,11 +26,22 @@
         <img src="images_google/google.png" class="logo">
         <form><br><br>
             <div class="search_elements">
+              <div class="dropdown_content">
                 <input ref="first" v-model="googleSearch" type="text" class="search_input"/>
-                <img src="images_google/search.png" class="search_icon"/>
+                <div class="bottom_border"></div>
+                <div class="list">
+                  <ul v-for="city in filteredCities" v-on:click="update_input(city.name)">
+                    <li>
+                      <!-- {{city.name}} -->
+                      <b>{{ city.name.substring(0, city.name.indexOf(googleSearch[0])) }}</b>{{googleSearch}}<b>{{ city.name.substring(googleSearch.length + (city.name.substring(0, city.name.indexOf(googleSearch[0]))).length) }}</b>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+                <img src="images_google/search_icon.png" class="search_icon"/>
                 <img src="images_google/mic.png" class="search_voice"/>
-                <input type="button" class="search_button" value="Sukaj w google"/>
-                <input type="button" class="search_button" value="Szczęśliwy traf"/>
+                <input v-on:click="change_page()" type="button" class="search_button" value="Sukaj w google"/>
+                <input v-on:click="change_page()" type="button" class="search_button" value="Szczęśliwy traf"/>
             </div>
         </form>
     </section>
@@ -58,7 +69,7 @@
     
     <div class="top_nav">
 
-        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="">
+        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt=""  v-on:click="change_page()">
 
         <ul class="accountOptions">
           <li><a href="#"><img src="images_google/bars.png" class="google_apps" role="button"></a></li>
@@ -68,7 +79,7 @@
         <div class="search_tools">
 
           <div class="search_elem">
-            <input ref="second" type="text" v-model="googleSearch">
+            <input ref="second" type="text" v-model="googleSearch"/>
             <img src="images_google/loupe_icon.png" class="search_icon">
             <img src="images_google/mic.png" class="search_voice">
             <img src="images_google/keyboard.png" class="search_keyboard">
@@ -95,14 +106,14 @@
 
         <p class="results_number">Około 14 700 000 wyników (0,34 s)</p>
 
-        <div class="cities">
-          <a class="link">Miasta zawierające "{{googleSearch}}":</a>
+        <!-- <div class="cities">
+          <a>Miasta zawierające "{{googleSearch}}":</a>
           <ul>
             <li v-for="city in filteredCities">
               {{ city.name }}
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <div class="result">
           <a class="link" href="#">support.google.com › websearch › answer</a><button>▼</button>
@@ -257,34 +268,61 @@
   var app = new Vue({
     el: '#app',
     data: {
+      selected_city: '',
       googleSearch: '',
+      change_class: 0,
       cities: window.cities,
     },
 
     computed: {
       filteredCities: function() {
-        let result = this.cities.filter(city => city.name.includes(this.googleSearch));
-        if(result.length>10){
-          return result.slice(1,11);
+        if (this.googleSearch.length > 0){
+          let result = this.cities.filter(city => city.name.includes(this.googleSearch));
+          if(result.length > 10){
+            result = result.slice(1,11);
+          }
+          return result;
         }
-        return result;
+      },
+      textBold() {
+        this.filteredCities.forEach(element => {
+          element.replace(/([0-9])/g, "<b>$1</b>");
+        });
+        return this.filteredCities;
       }
     },
 
-    updated() {
-        this.$nextTick(() => {
-
-        if (this.googleSearch.length > 0) {
-
-        this.$refs.second.focus();
-
-        } else {
-
-        this.$refs.first.focus();
-
+    methods: {
+      change_page: function () {
+        if (this.change_class == 0){
+          this.change_class = 1;
         }
-      })
-    }
+        else{
+          this.googleSearch = '';
+          this.change_class = 0;
+        }
+    },
+    update_input: function (name){
+          this.googleSearch = name;
+          this.change_page(); //automatyczne przekierowanie po kliknieciu
+    },
+    
+  },
+
+    // updated() {
+    //     this.$nextTick(() => {
+
+    //     if (this.googleSearch.length > 0) {
+
+    //     this.$refs.second.focus();
+
+    //     } else {
+
+    //     this.$refs.first.focus();
+
+    //     }
+    //   })
+    // }
 });
 </script>
 </html>
