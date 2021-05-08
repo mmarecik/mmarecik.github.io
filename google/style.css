@@ -47,6 +47,7 @@ div.home  {
 	cursor: pointer;
 }
 
+
 .home nav.nav_tools img:hover {
 	background-color: #ececece5;
 	padding: 7px 7px;
@@ -222,6 +223,9 @@ div.home  {
 	box-shadow: 0 0 5px rgba(172, 172, 172, 0.822);
 }
 
+.home .thin {
+	font-weight: 500;
+}
 
 .home .dropdown_content .list li{
 	list-style: none;
@@ -234,7 +238,11 @@ div.home  {
 	padding: 7px 5px 7px 30px;
 }
 
-.home .dropdown_content .list li:hover{
+/* .home .dropdown_content .list li:hover{
+	background-color: rgb(240, 240, 240);
+} */
+
+.home .dropdown_content .list li.grey_content  {
 	background-color: rgb(240, 240, 240);
 }
 
