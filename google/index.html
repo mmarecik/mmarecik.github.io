@@ -7,8 +7,10 @@
     <link rel="icon"  href="images_google/icon.png">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="style_results.css">
+    <link rel="stylesheet" type="text/css" href="autocompleter.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="./cities.js"></script>
+    <script src="./autocompleter.js"></script>
   </head>
 
   <body> 
@@ -28,6 +30,8 @@
             <div class="search_elements">
               <div class="dropdown_content">
                 <input @focus="foc" ref="first" v-model="googleSearch" type="text" class="search_input" v-on:keyup.down="downClick" v-on:keyup.up="upClick" v-on:keyup.enter="enterClick"/>
+                <!--PROBOWALAM I NIE DZIALA-->
+                <!-- <v-autocompleter :options="cities" @enter="showResults"></v-autocompleter> -->
                 <div class="bottom_border"></div>
                 <div class="list">
                   <ul v-for="(city, index) in filteredCities" v-on:click="update_input(city.name)">
@@ -349,14 +353,12 @@
         this.googleSearch = this.filteredCities[i].name;
     },
 
-    enterClick() {
-      if(this.list_counter != -1){ 
-        this.googleSearch = this.filteredCities[this.list_counter].name
+    enterClick: function(event) {
+      alert();
+      if(event){
+        
+        this.cities_update = true;
         this.list_counter = -1;
-        this.change_page();
-        this.foc = false;
-      }
-      else{
         this.change_page();
       }
     },
