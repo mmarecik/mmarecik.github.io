@@ -21,7 +21,9 @@ Vue.component('v-autocompleter', {
         </ul>
       </div>
     </div>`,
+
   props: ['value', 'options'],
+
   data: function () {
     return {
       selected_city: '',
@@ -34,6 +36,7 @@ Vue.component('v-autocompleter', {
       filteredCities: []
     }
   },
+  
   watch: {
     list_counter: function(){
       this.cities_update = false;

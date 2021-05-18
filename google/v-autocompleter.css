@@ -1,4 +1,4 @@
-.home .search_elements .search_input {
+.search_elements .search_input {
 	display: block;
 	width: 50%;
 	border: 1px solid rgb(255, 255, 255);
@@ -12,23 +12,23 @@
 	cursor: auto;
 }
 
-.home .dropdown_content {
+.vue-autocompleter {
 	border: 1px solid #ddd;
 	border-radius: 25px;
 	outline: none;
 	cursor: auto;
 }
  
-.home .dropdown_content:hover {
+.vue-autocompleter:hover {
 	border: 1px solid #fff;
 	box-shadow: 0 0 5px rgba(172, 172, 172, 0.822);
 }
 
-.home .thin {
+.thin {
 	font-weight: 500;
 }
 
-.home .dropdown_content .list li{
+.vue-autocompleter .list li {
 	list-style: none;
 	background-image: url('images_google/search_icon.png');
 	background-repeat: no-repeat;
@@ -39,10 +39,10 @@
 	padding: 7px 5px 7px 30px;
 }
 
-/* .home .dropdown_content .list li:hover{
+/* .vue-autocompleter .list li:hover{
 	background-color: rgb(240, 240, 240);
 } */
 
-.home .dropdown_content .list li.grey_content  {
+.vue-autocompleter .list li.grey_content  {
 	background-color: rgb(240, 240, 240);
 }
