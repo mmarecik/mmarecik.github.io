@@ -12,9 +12,9 @@
 
   <body> 
     <div id="app" :class="[change_class == 1 ? 'results' : 'home']">
-      googleSearch: {{ googleSearch }}
-      enters: {{ enterValues }}
-      <v-autocompleter v-model="googleSearch" :options="cities" @enter="showResults"></v-autocompleter>
+      <div id="top">
+        <v-autocompleter v-model="googleSearch" :options="cities" @enter="showResults"></v-autocompleter>
+      </div>
     </div>
 </body>
 <script>
@@ -28,8 +28,6 @@
     },
     methods: {
       showResults(newValue) {
-        this.enterValues.push(newValue);
-
         if (this.change_class == 0){
           this.change_class = 1;
         }
