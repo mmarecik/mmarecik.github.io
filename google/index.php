@@ -7,10 +7,9 @@
     <link rel="icon"  href="images_google/icon.png">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="style_results.css">
-    <link rel="stylesheet" type="text/css" href="v-autocompleter.css">
+    <script src="my_vue.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="./cities.js"></script>
-    <script src="./v-autocompleter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js" integrity="sha512-JZSo0h5TONFYmyLMqp8k4oPhuo6yNk9mHM+FY50aBjpypfofqtEWsAgRDQm94ImLCzSaHeqNvYuD9382CEn2zw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
 
   <body> 
@@ -28,11 +27,31 @@
         <img src="images_google/google.png" class="logo">
         <form><br><br>
             <div class="search_elements">
-              <v-autocompleter v-model="googleSearch" :options="cities" @enter="showResults"></v-autocompleter>
+              <div class="dropdown_content">
+
+                <input class="search_input" 
+                ref="first" 
+                v-model="googleSearch" 
+                type="text"  
+                v-on:keyup.down="downClick" 
+                v-on:keyup.up="upClick" 
+                v-on:keyup.enter="enterClick"
+                @input="findResultsDebounced">
+
+                <div class="bottom_border"></div>
+                <div class="list">
+                  <ul v-for="(city, index) in filteredCities" :key="city.name" v-on:click="update_input(city.name)">
+                    <li :class="{grey_content: index == list_counter}">
+                        <a v-on:click="choose(index)" v-html="boldCity(city)">{{ city }}</a>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
                 <img src="images_google/search_icon.png" class="search_icon"/>
                 <img src="images_google/mic.png" class="search_voice"/>
-                <input  type="button" class="search_button" value="Sukaj w google"/>
-                <input  type="button" class="search_button" value="Szczęśliwy traf"/>
+                <input v-on:click="change_page" type="button" class="search_button" value="Sukaj w google"/>
+                <input v-on:click="change_page" type="button" class="search_button" value="Szczęśliwy traf"/>
             </div>
         </form>
     </section>
@@ -60,7 +79,7 @@
     
     <div class="top_nav">
 
-        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"  alt="">
+        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt=""  v-on:click="change_page()">
 
         <ul class="accountOptions">
           <li><a href="#"><img src="images_google/bars.png" class="google_apps" role="button"></a></li>
@@ -96,15 +115,6 @@
     <div class="searchResults">
 
         <p class="results_number">Około 14 700 000 wyników (0,34 s)</p>
-
-        <!-- <div class="cities">
-          <a>Miasta zawierające "{{googleSearch}}":</a>
-          <ul>
-            <li v-for="city in filteredCities">
-              {{ city.name }}
-            </li>
-          </ul>
-        </div> -->
 
         <div class="result">
           <a class="link" href="#">support.google.com › websearch › answer</a><button>▼</button>
@@ -153,19 +163,7 @@
           <h2><a href="#">Co to jest pozycjonowanie? Od czego zacząć? Zobacz nasz ...</a></h2>
           <p>Zobacz jaki wpływ na pozycje ma pozycjonowanie i jak je wykonać samemu. ... Z samej wyszukiwarki Google miesięcznie korzysta około 20 mln Internautów, co ... użytkownicy odnaleźli naszą witrynę internetową w wynikach wyszukiwania.</p>
         </div>
-<!--
-       <div class="result">
-          <a class="link" href="#">developers.google.com › beginner › seo-starter-guide</a><button>▼</button>
-          <h2><a href="#">SEO – przewodnik dla początkujących: podstawy | Centrum ...</a></h2>
-          <p>Uwzględnienie witryny w wynikach wyszukiwania Google jest proste i bezpłatne. ... Tag <title> informuje zarówno użytkowników, jak i wyszukiwarki, jaki jest ...</p>
-        </div>
 
-        <div class="result">
-          <a class="link" href="#">ks.pl › blog › jak-sprawdzic-pozycje-strony-w-google</a><button>▼</button>
-          <h2><a href="#">Pozycja w Google – jak sprawdzić, na której pozycji jest moja ..</a></h2>
-          <p>Tak naprawdę nie są znane wszystkie kryteria, jakimi kieruje się algorytm, nadając stronom pozycje w wynikach wyszukiwania. W dodatku algorytm jest co jakiś ...</p>
-        </div>
--->
         <br>
 
         <div class="related_results">
@@ -255,28 +253,4 @@
       </div>
     </div>
 </body>
-<script>
-  var app = new Vue({
-    el: '#app',
-    data: {
-      enterValues: [],
-      cities: window.cities,
-      change_class: 0,
-      googleSearch: '',
-    },
-    methods: {
-      showResults(newValue) {
-        this.enterValues.push(newValue);
-
-        if (this.change_class == 0){
-          this.change_class = 1;
-        }
-        else{
-          this.$emit('input', '');
-          this.change_class = 0;
-        }
-      }
-    }
-});
-</script>
 </html>

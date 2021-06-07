@@ -38,9 +38,9 @@
 	padding: 7px 5px 7px 30px;
 }
 
-/* .vue-autocompleter .list li:hover{
+.vue-autocompleter .list li:hover{
 	background-color: rgb(240, 240, 240);
-} */
+} 
 
 .vue-autocompleter .list li.grey_content  {
 	background-color: rgb(240, 240, 240);
